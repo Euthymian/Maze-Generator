@@ -151,7 +151,7 @@ MonoBehaviour:
   sizeX: 5
   sizeZ: 5
   wallPrefab: {fileID: 7602983346922444526, guid: 9a4c1c61f2f1b914db61e2030922992c, type: 3}
-  player: {fileID: 0}
+  player: {fileID: 3686109792816416863, guid: 803184d9e1eb64243a4fff89737b8622, type: 3}
   wallYPos: 0.75
   startMarker: {fileID: 236065731}
   finishMarker: {fileID: 916771719}
