@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     //called when script enabled
     private void OnEnable()
     {
-        movement = inputActions.Player.Movement; //get reference to movement action
+        movement = inputActions.Player.Movement;
         movement.Enable();
         
         look = inputActions.Player.Look;
@@ -56,13 +56,10 @@ public class PlayerController : MonoBehaviour
         toggleWalls.performed += ToggleWallCollision;
         toggleWalls.Enable();
         
-        //ResetToStart automatically called when Home or gamepad Start is pressed
         resetToStartingPoint = inputActions.Player.ResetToStartingPoint;
         resetToStartingPoint.performed += ResetToStart;
         resetToStartingPoint.Enable();
-
-        //create a DoJump callback function
-        //DoJump automatically called when Jump binding performed
+        
         inputActions.Player.Jump.performed += DoJump;
         inputActions.Player.Jump.Enable();
         
@@ -85,17 +82,15 @@ public class PlayerController : MonoBehaviour
     
     private void ResetToStart(InputAction.CallbackContext obj)
     {
-        //move back to the start and stop any movement
         rb.linearVelocity = Vector3.zero;
         rb.position = spawnPosition;
         transform.position = spawnPosition;
-
-        //back to the default view
+        
         yaw = spawnYaw;
         pitch = 0f;
         cameraTransform.rotation = Quaternion.Euler(pitch, yaw, 0f);
 
-        ResetPressed?.Invoke(); //tell the enemy (and anything else listening) to reset
+        ResetPressed?.Invoke();
     }
     
     private void ToggleWallCollision(InputAction.CallbackContext obj)
@@ -114,14 +109,13 @@ public class PlayerController : MonoBehaviour
 
     private void DoJump(InputAction.CallbackContext obj)
     {
-        Debug.Log("Jump"); //called when jump performed
+        Debug.Log("Jump");
     }
 
     private void Update()
     {
         Vector2 input = look.ReadValue<Vector2>();
 
-//mouse gives pixels moved this frame, stick gives -1..1 tilt, so they need different handling
         bool usingStick = look.activeControl?.device is Gamepad;
         Vector2 mouse = usingStick
             ? input * (stickLookSpeed * Time.deltaTime)
@@ -136,13 +130,11 @@ public class PlayerController : MonoBehaviour
     //called every physics update
     private void FixedUpdate()
     {
-        Vector2 v2 = movement.ReadValue<Vector2>(); //extract 2d input data
+        Vector2 v2 = movement.ReadValue<Vector2>();
 
-        //move relative to where the player is facing, not world north
         Quaternion facing = Quaternion.Euler(0f, yaw, 0f);
         Vector3 move = facing * new Vector3(v2.x, 0f, v2.y) * moveSpeed;
 
-        //set velocity directly so speed doesn't build up, keep y so gravity still works
         rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
     }
 }
