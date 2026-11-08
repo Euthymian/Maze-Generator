@@ -41,6 +41,36 @@ public sealed class MazeGenerator : MonoBehaviour
     public Vector3 StartPosition { get; private set; }
     public Vector3 FinishPosition { get; private set; }
     public bool IsGenerated { get; private set; }
+    private Cell[,] cells;
+    public int SizeX => sizeX;
+    public int SizeZ => sizeZ;
+
+    //world position of the centre of a cell
+    public Vector3 CellToWorld(Vector2Int cell)
+    {
+        return transform.TransformPoint(CellCenter(cell.x, cell.y));
+    }
+
+    //cells you can walk to from this cell (no wall in between)
+    public List<Vector2Int> GetOpenNeighbours(Vector2Int cell)
+    {
+        var result = new List<Vector2Int>(4);
+        foreach (var direction in Directions)
+        {
+            if ((cells[cell.x, cell.y] & direction.passage) != 0)
+                result.Add(cell + direction.offset);
+        }
+        return result;
+    }
+    
+    //which cell a world position is in (clamped, so positions outside the maze use the nearest edge cell)
+    public Vector2Int WorldToCell(Vector3 worldPosition)
+    {
+        Vector3 local = transform.InverseTransformPoint(worldPosition);
+        int x = Mathf.RoundToInt(local.x / CellSize + (sizeX - 1) * 0.5f);
+        int z = Mathf.RoundToInt(local.z / CellSize + (sizeZ - 1) * 0.5f);
+        return new Vector2Int(Mathf.Clamp(x, 0, sizeX - 1), Mathf.Clamp(z, 0, sizeZ - 1));
+    }
 
     private void Awake()
     {
@@ -59,7 +89,8 @@ public sealed class MazeGenerator : MonoBehaviour
 
         sizeX = Mathf.Max(sizeX, MinimumSize);
         sizeZ = Mathf.Max(sizeZ, MinimumSize);
-        DrawWalls(CarvePassages());
+        cells = CarvePassages();
+        DrawWalls(cells);
 
         StartPosition = transform.TransformPoint(CellCenter(0, 0));
         FinishPosition = transform.TransformPoint(CellCenter(sizeX - 1, sizeZ - 1));

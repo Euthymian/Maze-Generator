@@ -12,25 +12,35 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float stickLookSpeed = 180f; //degrees per second at full tilt
     [SerializeField] private LayerMask wallLayers;
     
-    //create private internal references
     private InputActions inputActions;
     private InputAction movement;
     private InputAction look;
     private InputAction toggleWalls;
     Rigidbody rb;
     private Collider playerCollider;
+    private InputAction resetToStartingPoint;
+    private Vector3 spawnPosition;
+    private float spawnYaw;
     
     private float yaw;
     private float pitch;
     private bool canWalkThroughWalls;
+    
+    public static event System.Action ResetPressed;
 
+    private void Start()
+    {
+        yaw = transform.eulerAngles.y;
+        spawnPosition = transform.position;
+        spawnYaw = yaw;
+    }
+    
     private void Awake()
     {
         rb = GetComponent<Rigidbody>(); //get rigidbody, responsible for enabling collision with other colliders
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous; // so doesnt pass through walls
         playerCollider = GetComponent<Collider>();
         inputActions = new InputActions(); //create new InputActions
-        yaw = transform.eulerAngles.y;
     }
 
     //called when script enabled
@@ -45,6 +55,11 @@ public class PlayerController : MonoBehaviour
         toggleWalls = inputActions.Player.ToggleWalls;
         toggleWalls.performed += ToggleWallCollision;
         toggleWalls.Enable();
+        
+        //ResetToStart automatically called when Home or gamepad Start is pressed
+        resetToStartingPoint = inputActions.Player.ResetToStartingPoint;
+        resetToStartingPoint.performed += ResetToStart;
+        resetToStartingPoint.Enable();
 
         //create a DoJump callback function
         //DoJump automatically called when Jump binding performed
@@ -64,6 +79,23 @@ public class PlayerController : MonoBehaviour
         toggleWalls.Disable();
         inputActions.Player.Jump.performed -= DoJump;
         inputActions.Player.Jump.Disable();
+        resetToStartingPoint.performed -= ResetToStart;
+        resetToStartingPoint.Disable();
+    }
+    
+    private void ResetToStart(InputAction.CallbackContext obj)
+    {
+        //move back to the start and stop any movement
+        rb.linearVelocity = Vector3.zero;
+        rb.position = spawnPosition;
+        transform.position = spawnPosition;
+
+        //back to the default view
+        yaw = spawnYaw;
+        pitch = 0f;
+        cameraTransform.rotation = Quaternion.Euler(pitch, yaw, 0f);
+
+        ResetPressed?.Invoke(); //tell the enemy (and anything else listening) to reset
     }
     
     private void ToggleWallCollision(InputAction.CallbackContext obj)
