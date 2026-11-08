@@ -150,10 +150,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MazeGenerator
   sizeX: 5
   sizeZ: 5
-  wallPrefab: {fileID: 7602983346922444526, guid: 9c9f7a461ef6c5c45bee3aeacf16cc03, type: 3}
+  wallPrefab: {fileID: 7602983346922444526, guid: 9a4c1c61f2f1b914db61e2030922992c, type: 3}
   wallYPos: 0.75
   startMarker: {fileID: 236065731}
   finishMarker: {fileID: 916771719}
+  northWallMaterial: {fileID: 2100000, guid: 0ef892c029a01a74e88b21d43fa8ee15, type: 2}
+  southWallMaterial: {fileID: 2100000, guid: b7eca40787a1cf149910ecebeda18ab2, type: 2}
+  eastWallMaterial: {fileID: 2100000, guid: 2f1d0930a425fb543804b4ebadcbc629, type: 2}
+  westWallMaterial: {fileID: 2100000, guid: b619ff8670dcc3b42a2f1021745dba6e, type: 2}
 --- !u!4 &71433771
 Transform:
   m_ObjectHideFlags: 0
@@ -589,7 +593,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 0165d405c7a93a94197a21dbea3fb139, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

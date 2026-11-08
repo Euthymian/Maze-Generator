@@ -13,6 +13,11 @@ public sealed class MazeGenerator : MonoBehaviour
     [SerializeField] private float wallYPos = 0.75f;
     [SerializeField] private Transform startMarker;
     [SerializeField] private Transform finishMarker;
+    
+    [SerializeField] private Material northWallMaterial;
+    [SerializeField] private Material southWallMaterial;
+    [SerializeField] private Material eastWallMaterial;
+    [SerializeField] private Material westWallMaterial;
 
     [Flags]
     private enum Cell
@@ -41,6 +46,13 @@ public sealed class MazeGenerator : MonoBehaviour
         if (wallPrefab == null || startMarker == null || finishMarker == null)
         {
             Debug.LogError("Assign the wall prefab, start marker, and finish marker on Maze Generator.", this);
+            return;
+        }
+
+        if (northWallMaterial == null || southWallMaterial == null || eastWallMaterial == null ||
+            westWallMaterial == null)
+        {
+            Debug.LogError("Assign all five materials (north, south, east, west, floor) on Maze Generator.", this);
             return;
         }
 
@@ -108,13 +120,13 @@ public sealed class MazeGenerator : MonoBehaviour
 
                 // Each shared edge is drawn by just one of its cells.
                 if ((cell & Cell.East) == 0)
-                    PlaceWall(center + Vector3.right * halfCell, 0f);
+                    PlaceWall(center + Vector3.right * halfCell, 0f, westWallMaterial, eastWallMaterial);
                 if ((cell & Cell.North) == 0)
-                    PlaceWall(center + Vector3.forward * halfCell, 90f);
+                    PlaceWall(center + Vector3.forward * halfCell, 90f, northWallMaterial, southWallMaterial);
                 if (x == 0)
-                    PlaceWall(center - Vector3.right * halfCell, 0f);
+                    PlaceWall(center - Vector3.right * halfCell, 0f, westWallMaterial, eastWallMaterial);
                 if (z == 0)
-                    PlaceWall(center - Vector3.forward * halfCell, 90f);
+                    PlaceWall(center - Vector3.forward * halfCell, 90f, northWallMaterial, southWallMaterial);
             }
         }
     }
@@ -125,11 +137,14 @@ public sealed class MazeGenerator : MonoBehaviour
                            (z - (sizeZ - 1) * 0.5f) * CellSize);
     }
 
-    private void PlaceWall(Vector3 position, float yaw)
+    private void PlaceWall(Vector3 position, float yaw, Material sideAMat, Material sideBMat)
     {
         position.y = wallYPos;
         Transform wall = Instantiate(wallPrefab, transform, false);
         wall.SetLocalPositionAndRotation(position, Quaternion.Euler(0f, yaw, 0f));
+        
+        wall.Find("SideA").GetComponent<MeshRenderer>().sharedMaterial = sideAMat;
+        wall.Find("SideB").GetComponent<MeshRenderer>().sharedMaterial = sideBMat;
     }
 
     private static void PlaceMarker(Transform marker, Vector3 position)
