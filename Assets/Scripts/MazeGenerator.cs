@@ -14,6 +14,7 @@ public sealed class MazeGenerator : MonoBehaviour
     [SerializeField] private float wallYPos = 0.75f;
     [SerializeField] private Transform startMarker;
     [SerializeField] private Transform finishMarker;
+    [SerializeField] private MeshRenderer floorRenderer;
     
     [SerializeField] private Material northWallMaterial;
     [SerializeField] private Material southWallMaterial;
@@ -42,6 +43,7 @@ public sealed class MazeGenerator : MonoBehaviour
     public Vector3 FinishPosition { get; private set; }
     public bool IsGenerated { get; private set; }
     private Cell[,] cells;
+    private Material floorMaterialInstance;
     public int SizeX => sizeX;
     public int SizeZ => sizeZ;
 
@@ -83,12 +85,13 @@ public sealed class MazeGenerator : MonoBehaviour
         if (northWallMaterial == null || southWallMaterial == null || eastWallMaterial == null ||
             westWallMaterial == null)
         {
-            Debug.LogError("Assign all five materials (north, south, east, west, floor) on Maze Generator.", this);
+            Debug.LogError("Assign the north, south, east, and west wall materials on Maze Generator.", this);
             return;
         }
 
         sizeX = Mathf.Max(sizeX, MinimumSize);
         sizeZ = Mathf.Max(sizeZ, MinimumSize);
+        SizeFloor();
         cells = CarvePassages();
         DrawWalls(cells);
 
@@ -98,6 +101,32 @@ public sealed class MazeGenerator : MonoBehaviour
         PlaceMarker(finishMarker, FinishPosition);
         Instantiate(player, startMarker.position, startMarker.rotation);
         IsGenerated = true;
+    }
+
+    private void SizeFloor()
+    {
+        if (floorRenderer == null)
+        {
+            Debug.LogError("Assign the floor quad renderer on Maze Generator.", this);
+            return;
+        }
+
+        Transform floor = floorRenderer.transform;
+        floor.position = transform.position;
+        floor.rotation = transform.rotation * Quaternion.Euler(90f, 0f, 0f);
+        floor.localScale = new Vector3(sizeX * CellSize, sizeZ * CellSize, floor.localScale.z);
+
+        // Floor.png contains four checker squares along each axis.
+        floorMaterialInstance = floorRenderer.material;
+        Vector2 tiling = new Vector2(sizeX / 4f, sizeZ / 4f);
+        floorMaterialInstance.SetTextureScale("_BaseMap", tiling);
+        floorMaterialInstance.SetTextureScale("_MainTex", tiling);
+    }
+
+    private void OnDestroy()
+    {
+        if (floorMaterialInstance != null)
+            Destroy(floorMaterialInstance);
     }
 
     private Cell[,] CarvePassages()

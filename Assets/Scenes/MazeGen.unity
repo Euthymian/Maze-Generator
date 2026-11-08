@@ -155,6 +155,7 @@ MonoBehaviour:
   wallYPos: 0.75
   startMarker: {fileID: 236065731}
   finishMarker: {fileID: 916771719}
+  floorRenderer: {fileID: 590147981}
   northWallMaterial: {fileID: 2100000, guid: 0ef892c029a01a74e88b21d43fa8ee15, type: 2}
   southWallMaterial: {fileID: 2100000, guid: b7eca40787a1cf149910ecebeda18ab2, type: 2}
   eastWallMaterial: {fileID: 2100000, guid: 2f1d0930a425fb543804b4ebadcbc629, type: 2}
@@ -499,7 +500,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 1}
+  m_LocalScale: {x: 7.5, y: 7.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
