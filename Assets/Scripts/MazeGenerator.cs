@@ -10,6 +10,7 @@ public sealed class MazeGenerator : MonoBehaviour
     [SerializeField, Min(MinimumSize)] private int sizeX = MinimumSize;
     [SerializeField, Min(MinimumSize)] private int sizeZ = MinimumSize;
     [SerializeField] private Transform wallPrefab;
+    [SerializeField] private GameObject player;
     [SerializeField] private float wallYPos = 0.75f;
     [SerializeField] private Transform startMarker;
     [SerializeField] private Transform finishMarker;
@@ -64,6 +65,7 @@ public sealed class MazeGenerator : MonoBehaviour
         FinishPosition = transform.TransformPoint(CellCenter(sizeX - 1, sizeZ - 1));
         PlaceMarker(startMarker, StartPosition);
         PlaceMarker(finishMarker, FinishPosition);
+        Instantiate(player, startMarker.position, startMarker.rotation);
         IsGenerated = true;
     }
 
