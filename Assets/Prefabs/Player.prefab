@@ -269,6 +269,10 @@ MonoBehaviour:
   cameraTransform: {fileID: 5655737340703645955}
   moveSpeed: 3
   mouseSensitivity: 0.1
+  stickLookSpeed: 180
+  wallLayers:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!54 &6432611585165215383
 Rigidbody:
   m_ObjectHideFlags: 0

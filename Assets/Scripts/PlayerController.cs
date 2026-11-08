@@ -9,20 +9,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float mouseSensitivity = 0.1f;
+    [SerializeField] private float stickLookSpeed = 180f; //degrees per second at full tilt
+    [SerializeField] private LayerMask wallLayers;
     
     //create private internal references
     private InputActions inputActions;
     private InputAction movement;
     private InputAction look;
+    private InputAction toggleWalls;
     Rigidbody rb;
+    private Collider playerCollider;
     
     private float yaw;
     private float pitch;
+    private bool canWalkThroughWalls;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>(); //get rigidbody, responsible for enabling collision with other colliders
-        rb.collisionDetectionMode = CollisionDetectionMode.Continuous; // so doesnt pass through wallss
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous; // so doesnt pass through walls
+        playerCollider = GetComponent<Collider>();
         inputActions = new InputActions(); //create new InputActions
         yaw = transform.eulerAngles.y;
     }
@@ -35,6 +41,10 @@ public class PlayerController : MonoBehaviour
         
         look = inputActions.Player.Look;
         look.Enable();
+        
+        toggleWalls = inputActions.Player.ToggleWalls;
+        toggleWalls.performed += ToggleWallCollision;
+        toggleWalls.Enable();
 
         //create a DoJump callback function
         //DoJump automatically called when Jump binding performed
@@ -50,9 +60,25 @@ public class PlayerController : MonoBehaviour
     {
         movement.Disable();
         look.Disable();
+        toggleWalls.performed -= ToggleWallCollision;
+        toggleWalls.Disable();
         inputActions.Player.Jump.performed -= DoJump;
         inputActions.Player.Jump.Disable();
     }
+    
+    private void ToggleWallCollision(InputAction.CallbackContext obj)
+    {
+        canWalkThroughWalls = !canWalkThroughWalls;
+
+        //excludeLayers makes this collider ignore anything on those layers
+        if (canWalkThroughWalls)
+            playerCollider.excludeLayers = wallLayers;
+        else
+            playerCollider.excludeLayers = 0;
+
+        Debug.Log(canWalkThroughWalls ? "Walking through walls: ON" : "Walking through walls: OFF");
+    }
+
 
     private void DoJump(InputAction.CallbackContext obj)
     {
@@ -61,7 +87,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Vector2 mouse = look.ReadValue<Vector2>() * mouseSensitivity;
+        Vector2 input = look.ReadValue<Vector2>();
+
+//mouse gives pixels moved this frame, stick gives -1..1 tilt, so they need different handling
+        bool usingStick = look.activeControl?.device is Gamepad;
+        Vector2 mouse = usingStick
+            ? input * (stickLookSpeed * Time.deltaTime)
+            : input * mouseSensitivity;
         
         yaw += mouse.x;
         pitch = Mathf.Clamp(pitch - mouse.y, -80f, 80f);

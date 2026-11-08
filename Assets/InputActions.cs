@@ -121,6 +121,26 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": true,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""ToggleWalls"",
+                    ""type"": ""Button"",
+                    ""id"": ""fb107a71-bf33-4aee-8b43-6beda8ed65ab"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""ResetToStartingPoint"",
+                    ""type"": ""Button"",
+                    ""id"": ""2ba103eb-0915-43ce-88a6-598af5bfb023"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -181,6 +201,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""8850b371-6e61-4033-8834-c96038e4b9c4"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""6026ebb7-c029-4475-9829-ba4ad41f3a7f"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -200,6 +231,61 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""271dff43-1892-42b7-9bdd-f24b1469472e"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""238773eb-f1e5-4b8d-a452-3a7f8212aa4b"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleWalls"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""322db24c-587f-4417-901c-36fee8cee449"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleWalls"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8b77d8a-a827-4ada-bcd3-c394ad84cd01"",
+                    ""path"": ""<Keyboard>/home"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ResetToStartingPoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee12b49e-c3b1-4a4c-9661-2e818fc4c1eb"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ResetToStartingPoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -211,6 +297,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
+        m_Player_ToggleWalls = m_Player.FindAction("ToggleWalls", throwIfNotFound: true);
+        m_Player_ResetToStartingPoint = m_Player.FindAction("ResetToStartingPoint", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -294,6 +382,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Look;
+    private readonly InputAction m_Player_ToggleWalls;
+    private readonly InputAction m_Player_ResetToStartingPoint;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -317,6 +407,14 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Look".
         /// </summary>
         public InputAction @Look => m_Wrapper.m_Player_Look;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ToggleWalls".
+        /// </summary>
+        public InputAction @ToggleWalls => m_Wrapper.m_Player_ToggleWalls;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ResetToStartingPoint".
+        /// </summary>
+        public InputAction @ResetToStartingPoint => m_Wrapper.m_Player_ResetToStartingPoint;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -352,6 +450,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @ToggleWalls.started += instance.OnToggleWalls;
+            @ToggleWalls.performed += instance.OnToggleWalls;
+            @ToggleWalls.canceled += instance.OnToggleWalls;
+            @ResetToStartingPoint.started += instance.OnResetToStartingPoint;
+            @ResetToStartingPoint.performed += instance.OnResetToStartingPoint;
+            @ResetToStartingPoint.canceled += instance.OnResetToStartingPoint;
         }
 
         /// <summary>
@@ -372,6 +476,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @ToggleWalls.started -= instance.OnToggleWalls;
+            @ToggleWalls.performed -= instance.OnToggleWalls;
+            @ToggleWalls.canceled -= instance.OnToggleWalls;
+            @ResetToStartingPoint.started -= instance.OnResetToStartingPoint;
+            @ResetToStartingPoint.performed -= instance.OnResetToStartingPoint;
+            @ResetToStartingPoint.canceled -= instance.OnResetToStartingPoint;
         }
 
         /// <summary>
@@ -433,5 +543,19 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLook(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleWalls" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleWalls(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ResetToStartingPoint" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnResetToStartingPoint(InputAction.CallbackContext context);
     }
 }

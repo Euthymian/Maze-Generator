@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6312995413710398247}
   - component: {fileID: 2909431492994162544}
   - component: {fileID: 1978929692585403264}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SideB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7602983346922444526}
   - component: {fileID: 3736893079067100348}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WallCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 3587007738876217588}
   - component: {fileID: 1265961433067427853}
   - component: {fileID: 4682317490989961968}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SideA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
