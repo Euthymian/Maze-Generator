@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3582999520985044899}
   - component: {fileID: 4203762374498218527}
+  - component: {fileID: 4799713391626138423}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -46,10 +47,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   maze: {fileID: 0}
-  player: {fileID: 3420035320013570342, guid: 803184d9e1eb64243a4fff89737b8622, type: 3}
+  model: {fileID: 6167156644218272295}
+  hitCollider: {fileID: 4799713391626138423}
   moveSpeed: 1.2
   turnSpeed: 360
   catchDistance: 0.5
+--- !u!136 &4799713391626138423
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667577934182713590}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.23
+  m_Height: 0.96
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.48, z: 0}
 --- !u!1001 &6437699520881805174
 PrefabInstance:
   m_ObjectHideFlags: 0
