@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4900067015715979664}
   - component: {fileID: 1170896602597487356}
   - component: {fileID: 7066078755315784800}
+  - component: {fileID: 1900473082953505783}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -137,6 +138,19 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &1900473082953505783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2627828646791456467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae528580e1d04818a68c1374c3db030a, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::MazeFog
+  startWithFog: 0
 --- !u!1 &3686109792816416863
 GameObject:
   m_ObjectHideFlags: 0
