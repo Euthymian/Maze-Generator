@@ -3,7 +3,12 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    private const int HitsToDefeat = 3;
+    private const float RespawnDelay = 5f;
+
     [SerializeField] private MazeGenerator maze;
+    [SerializeField] private GameObject model;
+    [SerializeField] private Collider hitCollider;
     [SerializeField] private float moveSpeed = 1.2f;     //match this to the walk animation so feet don't slide
     [SerializeField] private float turnSpeed = 360f;     //degrees per second
     [SerializeField] private float catchDistance = 0.5f; //stop this close to the player instead of walking into them
@@ -11,6 +16,8 @@ public class EnemyController : MonoBehaviour
     private Transform player;
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
+    private int hitsRemaining = HitsToDefeat;
+    private float respawnAt;
 
     private void Start()
     {
@@ -41,11 +48,55 @@ public class EnemyController : MonoBehaviour
 
     private void ResetToSpawn()
     {
+        if (hitsRemaining > 0)
+            transform.SetPositionAndRotation(spawnPosition, spawnRotation);
+    }
+
+    public bool TryHit()
+    {
+        if (!isActiveAndEnabled || hitsRemaining == 0)
+            return false;
+
+        hitsRemaining--;
+        if (hitsRemaining == 0)
+        {
+            hitCollider.enabled = false;
+            model.SetActive(false);
+            respawnAt = Time.time + RespawnDelay;
+        }
+
+        return true;
+    }
+
+    private void Respawn()
+    {
+        Vector2Int deathCell = maze.WorldToCell(transform.position);
+        Vector2Int? playerCell = player != null ? maze.WorldToCell(player.position) : null;
+        Vector2Int cell;
+        do
+        {
+            cell = new Vector2Int(Random.Range(0, maze.SizeX), Random.Range(0, maze.SizeZ));
+        }
+        while (cell == deathCell || cell == playerCell);
+
+        Vector3 position = maze.CellToWorld(cell);
+        position.y = spawnPosition.y;
+        spawnPosition = position;
         transform.SetPositionAndRotation(spawnPosition, spawnRotation);
+        hitsRemaining = HitsToDefeat;
+        model.SetActive(true);
+        hitCollider.enabled = true;
     }
 
     private void Update()
     {
+        if (hitsRemaining == 0)
+        {
+            if (Time.time >= respawnAt)
+                Respawn();
+            return;
+        }
+
         //find the spawned player; wait until it exists
         if (player == null)
         {
