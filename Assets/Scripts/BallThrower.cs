@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public sealed class BallThrower : MonoBehaviour
 {
@@ -15,11 +14,8 @@ public sealed class BallThrower : MonoBehaviour
         score = FindFirstObjectByType<MazeScore>();
     }
 
-    private void LateUpdate()
+    public void ThrowBall()
     {
-        if (Mouse.current?.leftButton.wasPressedThisFrame != true)
-            return;
-
         ThrownBall ball = Instantiate(ballPrefab, transform.position, transform.rotation);
         ball.Launch(transform.forward * throwSpeed, ownerCollider, score);
     }

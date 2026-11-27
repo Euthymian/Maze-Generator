@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Light))]
 public sealed class MazeFlashlight : MonoBehaviour
@@ -22,10 +21,9 @@ public sealed class MazeFlashlight : MonoBehaviour
         SetFlashlight(startWithFlashlight);
     }
 
-    private void Update()
+    public void ToggleFlashlight()
     {
-        if (Keyboard.current?.lKey.wasPressedThisFrame == true)
-            SetFlashlight(!spotlight.enabled);
+        SetFlashlight(!spotlight.enabled);
     }
 
     private void OnDisable()

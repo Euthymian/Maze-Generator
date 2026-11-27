@@ -141,6 +141,46 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""Fog"",
+                    ""type"": ""Button"",
+                    ""id"": ""560bd8e7-15e0-4831-a730-46672d17f958"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""DayNight"",
+                    ""type"": ""Button"",
+                    ""id"": ""152e8831-5966-4c8c-b0cd-6735d1043f95"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""Flashlight"",
+                    ""type"": ""Button"",
+                    ""id"": ""b7c1f473-8cd0-49e8-b1cb-41d69f7c4933"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""ThrowBall"",
+                    ""type"": ""Button"",
+                    ""id"": ""89c1fe96-92f4-437a-a2f0-85a20209826f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -286,6 +326,94 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""ResetToStartingPoint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a558ff6a-2170-4982-8f17-83a4efb9f1c3"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fog"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""38481bd4-3c99-4e80-9d77-a2bae6ae5967"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fog"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9d8de3db-abca-443d-b7e3-aa64601c6405"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DayNight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""87d1f42a-f3d4-48cb-bb11-ffb4270d6830"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DayNight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0449acfc-6611-4f02-b1b2-e26a71b8a31b"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flashlight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9692edd8-2841-4097-8c2a-f11cded5d9fa"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flashlight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""51382c06-3d5b-45aa-b7b0-509d8258b424"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ThrowBall"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cfeb39d0-c662-45a4-a94a-df98d93e5c3f"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ThrowBall"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -299,6 +427,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_ToggleWalls = m_Player.FindAction("ToggleWalls", throwIfNotFound: true);
         m_Player_ResetToStartingPoint = m_Player.FindAction("ResetToStartingPoint", throwIfNotFound: true);
+        m_Player_Fog = m_Player.FindAction("Fog", throwIfNotFound: true);
+        m_Player_DayNight = m_Player.FindAction("DayNight", throwIfNotFound: true);
+        m_Player_Flashlight = m_Player.FindAction("Flashlight", throwIfNotFound: true);
+        m_Player_ThrowBall = m_Player.FindAction("ThrowBall", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -384,6 +516,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_ToggleWalls;
     private readonly InputAction m_Player_ResetToStartingPoint;
+    private readonly InputAction m_Player_Fog;
+    private readonly InputAction m_Player_DayNight;
+    private readonly InputAction m_Player_Flashlight;
+    private readonly InputAction m_Player_ThrowBall;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -415,6 +551,22 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ResetToStartingPoint".
         /// </summary>
         public InputAction @ResetToStartingPoint => m_Wrapper.m_Player_ResetToStartingPoint;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Fog".
+        /// </summary>
+        public InputAction @Fog => m_Wrapper.m_Player_Fog;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/DayNight".
+        /// </summary>
+        public InputAction @DayNight => m_Wrapper.m_Player_DayNight;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Flashlight".
+        /// </summary>
+        public InputAction @Flashlight => m_Wrapper.m_Player_Flashlight;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ThrowBall".
+        /// </summary>
+        public InputAction @ThrowBall => m_Wrapper.m_Player_ThrowBall;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -456,6 +608,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @ResetToStartingPoint.started += instance.OnResetToStartingPoint;
             @ResetToStartingPoint.performed += instance.OnResetToStartingPoint;
             @ResetToStartingPoint.canceled += instance.OnResetToStartingPoint;
+            @Fog.started += instance.OnFog;
+            @Fog.performed += instance.OnFog;
+            @Fog.canceled += instance.OnFog;
+            @DayNight.started += instance.OnDayNight;
+            @DayNight.performed += instance.OnDayNight;
+            @DayNight.canceled += instance.OnDayNight;
+            @Flashlight.started += instance.OnFlashlight;
+            @Flashlight.performed += instance.OnFlashlight;
+            @Flashlight.canceled += instance.OnFlashlight;
+            @ThrowBall.started += instance.OnThrowBall;
+            @ThrowBall.performed += instance.OnThrowBall;
+            @ThrowBall.canceled += instance.OnThrowBall;
         }
 
         /// <summary>
@@ -482,6 +646,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @ResetToStartingPoint.started -= instance.OnResetToStartingPoint;
             @ResetToStartingPoint.performed -= instance.OnResetToStartingPoint;
             @ResetToStartingPoint.canceled -= instance.OnResetToStartingPoint;
+            @Fog.started -= instance.OnFog;
+            @Fog.performed -= instance.OnFog;
+            @Fog.canceled -= instance.OnFog;
+            @DayNight.started -= instance.OnDayNight;
+            @DayNight.performed -= instance.OnDayNight;
+            @DayNight.canceled -= instance.OnDayNight;
+            @Flashlight.started -= instance.OnFlashlight;
+            @Flashlight.performed -= instance.OnFlashlight;
+            @Flashlight.canceled -= instance.OnFlashlight;
+            @ThrowBall.started -= instance.OnThrowBall;
+            @ThrowBall.performed -= instance.OnThrowBall;
+            @ThrowBall.canceled -= instance.OnThrowBall;
         }
 
         /// <summary>
@@ -557,5 +733,33 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnResetToStartingPoint(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Fog" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFog(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "DayNight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDayNight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Flashlight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFlashlight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ThrowBall" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnThrowBall(InputAction.CallbackContext context);
     }
 }

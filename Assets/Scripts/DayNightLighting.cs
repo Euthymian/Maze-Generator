@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Light))]
 public sealed class DayNightLighting : MonoBehaviour
@@ -21,7 +20,7 @@ public sealed class DayNightLighting : MonoBehaviour
     private Light directionalLight;
     private Material originalSkybox;
     private Material skybox;
-    private bool isNight;
+    public bool IsNight { get; private set; }
     private float nightProgress;
     private Color dayAmbientSkyColor;
     private Color dayAmbientEquatorColor;
@@ -56,8 +55,8 @@ public sealed class DayNightLighting : MonoBehaviour
         skybox.SetVector(MoonDirection, nightRotation * Vector3.back);
         RenderSettings.skybox = skybox;
 
-        isNight = startInNight;
-        nightProgress = isNight ? 1f : 0f;
+        IsNight = startInNight;
+        nightProgress = IsNight ? 1f : 0f;
         ApplyLighting(nightProgress);
     }
 
@@ -66,10 +65,7 @@ public sealed class DayNightLighting : MonoBehaviour
         if (skybox == null)
             return;
 
-        if (Keyboard.current?.nKey.wasPressedThisFrame == true)
-            isNight = !isNight;
-
-        float target = isNight ? 1f : 0f;
+        float target = IsNight ? 1f : 0f;
         if (nightProgress == target)
             return;
 
@@ -79,12 +75,19 @@ public sealed class DayNightLighting : MonoBehaviour
         ApplyLighting(Mathf.SmoothStep(0f, 1f, nightProgress));
     }
 
+    public void ToggleDayNight()
+    {
+        if (skybox != null)
+            IsNight = !IsNight;
+    }
+
     private void OnDisable()
     {
         if (skybox == null)
             return;
 
         ApplyLighting(0f);
+        IsNight = false;
         RenderSettings.skybox = originalSkybox;
         Destroy(skybox);
         skybox = null;
