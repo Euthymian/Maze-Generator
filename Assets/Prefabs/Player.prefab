@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7066078755315784800}
   - component: {fileID: 1900473082953505783}
   - component: {fileID: 3986401235029562811}
+  - component: {fileID: 1035248118876363679}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -167,6 +168,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BallThrower
   ballPrefab: {fileID: 700007, guid: ea3a8f1e53974cf289708b71d5410253, type: 3}
   throwSpeed: 12
+--- !u!114 &1035248118876363679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2627828646791456467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c26bbce9259644779029b5411613cb70, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::MazeMusic
+  dayMusic: {fileID: 8300000, guid: d3d3307f9148426d836856990f164436, type: 3}
+  nightMusic: {fileID: 8300000, guid: 259beab924c24b8bb8f38d2077a5c8d5, type: 3}
+  startWithMusic: 1
+  distantVolume: 0.12
+  nearbyVolume: 0.65
+  audibleDistance: 15
 --- !u!1 &4638336475880614357
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,6 +434,8 @@ MonoBehaviour:
   wallLayers:
     serializedVersion: 2
     m_Bits: 8
+  footstepSound: {fileID: 8300000, guid: 2ab87d774a304f1ca654aa1f17d11d76, type: 3}
+  wallBumpSound: {fileID: 8300000, guid: 1a24b92d18ac406c8ebb162ef5356288, type: 3}
 --- !u!54 &6432611585165215383
 Rigidbody:
   m_ObjectHideFlags: 0

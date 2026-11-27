@@ -9,6 +9,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private MazeGenerator maze;
     [SerializeField] private GameObject model;
     [SerializeField] private Collider hitCollider;
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioClip respawnSound;
     [SerializeField] private float moveSpeed = 1.2f;     //match this to the walk animation so feet don't slide
     [SerializeField] private float turnSpeed = 360f;     //degrees per second
     [SerializeField] private float catchDistance = 0.5f; //stop this close to the player instead of walking into them
@@ -18,6 +20,17 @@ public class EnemyController : MonoBehaviour
     private Quaternion spawnRotation;
     private int hitsRemaining = HitsToDefeat;
     private float respawnAt;
+    private AudioSource cues;
+
+    public bool IsAlive => isActiveAndEnabled && hitsRemaining > 0;
+
+    private void Awake()
+    {
+        cues = gameObject.AddComponent<AudioSource>();
+        cues.playOnAwake = false;
+        cues.spatialBlend = 0.35f;
+        cues.minDistance = 2f;
+    }
 
     private void Start()
     {
@@ -54,7 +67,7 @@ public class EnemyController : MonoBehaviour
 
     public bool TryHit()
     {
-        if (!isActiveAndEnabled || hitsRemaining == 0)
+        if (!IsAlive)
             return false;
 
         hitsRemaining--;
@@ -63,6 +76,7 @@ public class EnemyController : MonoBehaviour
             hitCollider.enabled = false;
             model.SetActive(false);
             respawnAt = Time.time + RespawnDelay;
+            cues.PlayOneShot(deathSound);
         }
 
         return true;
@@ -86,6 +100,7 @@ public class EnemyController : MonoBehaviour
         hitsRemaining = HitsToDefeat;
         model.SetActive(true);
         hitCollider.enabled = true;
+        cues.PlayOneShot(respawnSound);
     }
 
     private void Update()

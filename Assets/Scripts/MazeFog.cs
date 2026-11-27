@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Camera))]
 public sealed class MazeFog : MonoBehaviour
@@ -13,9 +12,8 @@ public sealed class MazeFog : MonoBehaviour
         FogEnabled = startWithFog;
     }
 
-    private void Update()
+    public void ToggleFog()
     {
-        if (Keyboard.current?.fKey.wasPressedThisFrame == true)
-            FogEnabled = !FogEnabled;
+        FogEnabled = !FogEnabled;
     }
 }

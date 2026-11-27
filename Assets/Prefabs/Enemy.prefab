@@ -49,6 +49,8 @@ MonoBehaviour:
   maze: {fileID: 0}
   model: {fileID: 6167156644218272295}
   hitCollider: {fileID: 4799713391626138423}
+  deathSound: {fileID: 8300000, guid: 2037792dfca7420a9d923d60b89984eb, type: 3}
+  respawnSound: {fileID: 8300000, guid: fc5010b597ce45c7a3fb5914577ee869, type: 3}
   moveSpeed: 1.2
   turnSpeed: 360
   catchDistance: 0.5
