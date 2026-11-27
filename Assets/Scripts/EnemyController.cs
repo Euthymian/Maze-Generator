@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyController : MonoBehaviour
 {
@@ -28,7 +29,6 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
-        //start in the finish corner, far away from the player
         Vector3 start = maze.CellToWorld(new Vector2Int(maze.SizeX - 1, maze.SizeZ - 1));
         start.y = transform.position.y;
         transform.position = start;
@@ -97,7 +97,6 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
-        //find the spawned player; wait until it exists
         if (player == null)
         {
             PlayerController found = FindFirstObjectByType<PlayerController>();
@@ -106,31 +105,33 @@ public class EnemyController : MonoBehaviour
             player = found.transform;
         }
         
-        //re-plan every frame from where we actually are, so we can turn back straight away
         Vector2Int myCell = maze.WorldToCell(transform.position);
         Vector2Int playerCell = maze.WorldToCell(player.position);
 
         Vector3 target;
         if (myCell == playerCell)
-            target = player.position; //same cell, no walls in between, go straight at them
+            target = player.position; 
         else
-            target = maze.CellToWorld(NextStepToward(myCell, playerCell)); //centre of the next cell on the path
+            target = maze.CellToWorld(NextStepToward(myCell, playerCell)); 
 
         Vector3 toTarget = target - transform.position;
         toTarget.y = 0f;
         float distance = toTarget.magnitude;
+        
+        if (myCell == playerCell && distance <= catchDistance)
+        {
+            KillPlayer();
+            return;
+        }
 
         if (distance < 0.0001f)
             return;
-
-        //turn smoothly to face where we're going
+        
         Quaternion lookRotation = Quaternion.LookRotation(toTarget);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, turnSpeed * Time.deltaTime);
-
-        //don't walk into the player
+        
         bool closeEnough = myCell == playerCell && distance <= catchDistance;
 
-        //only walk once we're roughly facing the target, so we turn around instead of moonwalking
         bool facingTarget = Vector3.Angle(transform.forward, toTarget) < 45f;
 
         if (!closeEnough && facingTarget)
@@ -173,5 +174,11 @@ public class EnemyController : MonoBehaviour
             stepCell = cameFrom[stepCell];
 
         return stepCell;
+    }
+    
+    private void KillPlayer()
+    {
+        enabled = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
