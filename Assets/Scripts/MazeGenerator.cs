@@ -42,6 +42,10 @@ public sealed class MazeGenerator : MonoBehaviour
     public Vector3 StartPosition { get; private set; }
     public Vector3 FinishPosition { get; private set; }
     public bool IsGenerated { get; private set; }
+    public int Seed { get; private set; }
+    
+    public static int? NextSeed;
+    
     private Cell[,] cells;
     private Material floorMaterialInstance;
     public int SizeX => sizeX;
@@ -92,6 +96,11 @@ public sealed class MazeGenerator : MonoBehaviour
         sizeX = Mathf.Max(sizeX, MinimumSize);
         sizeZ = Mathf.Max(sizeZ, MinimumSize);
         SizeFloor();
+        
+        // basically ?? means if nextseed has a val, use it, otherwise it generates another seed.
+        Seed = NextSeed ?? UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        NextSeed = null;
+        UnityEngine.Random.InitState(Seed);
         cells = CarvePassages();
         DrawWalls(cells);
 

@@ -181,4 +181,27 @@ public class EnemyController : MonoBehaviour
         enabled = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+    
+    public void SaveTo(GameData data)
+    {
+        data.enemyPos = transform.position;
+        data.rotation = transform.rotation;
+        data.spawnPos = spawnPosition;
+        data.hitsRemaining = hitsRemaining;
+        data.respawnIn = hitsRemaining == 0 ? Mathf.Max(0f, respawnAt - Time.time) : 0f;
+    }
+
+    public void LoadFrom(GameData data)
+    {
+        spawnPosition = data.spawnPos;
+        transform.SetPositionAndRotation(data.enemyPos, data.rotation);
+        hitsRemaining = Mathf.Clamp(data.hitsRemaining, 0, HitsToDefeat);
+
+        //if the enemy was defeated when saved, keep it hidden until its respawn timer runs out
+        bool alive = hitsRemaining > 0;
+        model.SetActive(alive);
+        hitCollider.enabled = alive;
+        if (!alive)
+            respawnAt = Time.time + data.respawnIn;
+    }
 }

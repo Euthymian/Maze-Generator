@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
     private float pitch;
     private bool canWalkThroughWalls;
     
+    public float Yaw => yaw;
+    public float Pitch => pitch;
+    
     public static event System.Action ResetPressed;
 
     private void Start()
@@ -82,14 +85,7 @@ public class PlayerController : MonoBehaviour
     
     private void ResetToStart(InputAction.CallbackContext obj)
     {
-        rb.linearVelocity = Vector3.zero;
-        rb.position = spawnPosition;
-        transform.position = spawnPosition;
-        
-        yaw = spawnYaw;
-        pitch = 0f;
-        cameraTransform.rotation = Quaternion.Euler(pitch, yaw, 0f);
-
+        Teleport(spawnPosition, spawnYaw, 0f);
         ResetPressed?.Invoke();
     }
     
@@ -114,6 +110,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale == 0f)
+            return;
+        
         Vector2 input = look.ReadValue<Vector2>();
 
         bool usingStick = look.activeControl?.device is Gamepad;
@@ -136,5 +135,16 @@ public class PlayerController : MonoBehaviour
         Vector3 move = facing * new Vector3(v2.x, 0f, v2.y) * moveSpeed;
 
         rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
+    }
+    
+    public void Teleport(Vector3 position, float newYaw, float newPitch)
+    {
+        rb.linearVelocity = Vector3.zero;
+        rb.position = position;
+        transform.position = position;
+
+        yaw = newYaw;
+        pitch = newPitch;
+        cameraTransform.localRotation = Quaternion.Euler(pitch, yaw, 0f);
     }
 }

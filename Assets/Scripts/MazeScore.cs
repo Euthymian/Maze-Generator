@@ -19,4 +19,15 @@ public sealed class MazeScore : MonoBehaviour
         Score++;
         label.SetText("Score {0}", Score);
     }
+    
+    public void SetScore(int value)
+    {
+        Score = Mathf.Max(0, value);
+        UpdateLabel();
+    }
+    
+    private void UpdateLabel()
+    {
+        label.SetText("Score {0}", Score);
+    }
 }
