@@ -10,6 +10,7 @@ public sealed class MazeGenerator : MonoBehaviour
     [SerializeField, Min(MinimumSize)] private int sizeX = MinimumSize;
     [SerializeField, Min(MinimumSize)] private int sizeZ = MinimumSize;
     [SerializeField] private Transform wallPrefab;
+    [SerializeField] private Transform doorPrefab;
     [SerializeField] private GameObject player;
     [SerializeField] private float wallYPos = 0.75f;
     [SerializeField] private Transform startMarker;
@@ -43,6 +44,7 @@ public sealed class MazeGenerator : MonoBehaviour
     public Vector3 FinishPosition { get; private set; }
     public bool IsGenerated { get; private set; }
     public int Seed { get; private set; }
+    private bool doorPlaced;
     
     public static int? NextSeed;
     
@@ -211,11 +213,19 @@ public sealed class MazeGenerator : MonoBehaviour
     private void PlaceWall(Vector3 position, float yaw, Material sideAMat, Material sideBMat)
     {
         position.y = wallYPos;
-        Transform wall = Instantiate(wallPrefab, transform, false);
-        wall.SetLocalPositionAndRotation(position, Quaternion.Euler(0f, yaw, 0f));
         
-        wall.Find("SideA").GetComponent<MeshRenderer>().sharedMaterial = sideAMat;
-        wall.Find("SideB").GetComponent<MeshRenderer>().sharedMaterial = sideBMat;
+        bool makeDoor = !doorPlaced && doorPrefab != null && Mathf.Abs(position.x) < (sizeX - 1) * CellSize * 0.5f;
+        Transform prefabToUse = makeDoor ? doorPrefab : wallPrefab;
+        if (makeDoor) doorPlaced = true;
+        
+        Transform wall = Instantiate(prefabToUse, transform, false);
+        wall.SetLocalPositionAndRotation(position, Quaternion.Euler(0f, yaw, 0f));
+
+        if (!makeDoor)
+        {
+            wall.Find("SideA").GetComponent<MeshRenderer>().sharedMaterial = sideAMat;
+            wall.Find("SideB").GetComponent<MeshRenderer>().sharedMaterial = sideBMat;    
+        }
     }
 
     private static void PlaceMarker(Transform marker, Vector3 position)

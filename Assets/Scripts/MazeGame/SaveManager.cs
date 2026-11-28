@@ -135,4 +135,31 @@ public class SaveManager : MonoBehaviour
         statusLabel.text = message;
         hideMessageAt = Time.unscaledTime + MessageDuration;
     }
+    
+    public static void ReturnFromMiniGame(int mazeSceneBuildIndex = 0)
+    {
+        if (!File.Exists(SavePath))
+        {
+            Debug.LogError("No saved game found when returning from mini-game.");
+            SceneManager.LoadScene(mazeSceneBuildIndex);
+            return;
+        }
+
+        try
+        {
+            GameData data = JsonUtility.FromJson<GameData>(File.ReadAllText(SavePath));
+            if (data != null)
+            {
+                pendingLoad = data;
+                MazeGenerator.NextSeed = data.mazeSeed;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Could not load game when returning from mini-game: {e.Message}");
+        }
+
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(mazeSceneBuildIndex);
+    }
 }
